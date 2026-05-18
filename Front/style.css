@@ -1,0 +1,185 @@
+:root {
+    --bg-primary: #f4f6f9;
+    --bg-sidebar: #1e1e2f;
+    --accent-color: #4f46e5;
+    --text-main: #333;
+    --text-light: #fff;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    color: var(--text-light);
+    padding: 20px;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: #a0aec0;
+    padding: 12px 15px;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+/* Conteúdo */
+.content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+section {
+    display: none;
+}
+
+section.active-section {
+    display: block;
+}
+
+h1 {
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+.card h3 {
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* Formulários */
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: var(--accent-color);
+}
+
+.btn {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 6px;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background-color: #4a5568;
+}
+
+/* Tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #f8fafc;
+    color: #64748b;
+}
+
+/* Submenus ocultos por padrão */
+.submenu {
+    display: none;
+    list-style: none;
+    padding-left: 15px; /* Cria o recuo das subopções */
+    margin-top: 5px;
+}
+
+/* Mostra o submenu quando a classe 'open' for adicionada */
+.submenu.open {
+    display: block;
+}
+
+/* Ajusta as fontes das subopções */
+.submenu li a {
+    font-size: 0.85em;
+    padding: 8px 15px;
+}
+
+/* Posiciona e anima a setinha do menu */
+.arrow {
+    float: right;
+    transition: transform 0.3s ease;
+}
+
+/* Gira a setinha quando o menu estiver aberto */
+.arrow.rotate {
+    transform: rotate(180deg);
+}
