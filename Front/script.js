@@ -1,8 +1,42 @@
 const API_URL = "http://127.0.0.1:5500";
+let widgetsAtivos = JSON.parse(localStorage.getItem('meuDashboard')) || [];
 
-// ---------------------------------------------------
-// CONTROLES DE NAVEGAÇÃO E SUBMENUS
-// ---------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    const tipoUsuario = localStorage.getItem('tipoUsuarioLogado');
+
+    if (!tipoUsuario) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    if (tipoUsuario === 'aluno') {
+        document.getElementById('menu-alunos').style.display = 'none';
+        document.getElementById('menu-funcionarios').style.display = 'none';
+        document.getElementById('menu-nova-entrega').style.display = 'none';
+        document.getElementById('menu-historico').style.display = 'none';
+        document.getElementById('menu-mensagens').style.display = 'none';
+        
+        // Esconde o campo de Matrícula no Agendamento para o Aluno
+        const campoAgendamentoAluno = document.getElementById('agendamento-aluno-id');
+        if(campoAgendamentoAluno) campoAgendamentoAluno.style.display = 'none';
+
+        const restritosAluno = ['alunos', 'funcionarios', 'nova_entrega', 'historico', 'avisos', 'configuracoes', 'lembretes'];
+        restritosAluno.forEach(id => {
+            const btn = document.querySelector(`button[ondragstart*="${id}"]`);
+            if (btn) btn.style.display = 'none';
+        });
+
+        widgetsAtivos = widgetsAtivos.filter(widget => !restritosAluno.includes(widget));
+    }
+
+    renderizarDashboard();
+});
+
+function fazerLogout() {
+    localStorage.removeItem('tipoUsuarioLogado');
+    window.location.href = 'login.html';
+}
+
 function toggleSubmenu(event, submenuId) {
     event.preventDefault(); 
     const submenu = document.getElementById(submenuId);
@@ -15,32 +49,24 @@ function toggleSubmenu(event, submenuId) {
 }
 
 function showSection(event, sectionId) {
-    // Esconde todas as seções da tela
     document.querySelectorAll('main section').forEach(section => {
         section.classList.remove('active-section');
     });
-    // Remove a classe ativa visual dos links da barra lateral
     document.querySelectorAll('.sidebar a').forEach(link => {
         link.classList.remove('active');
     });
     
-    // Ativa a seção solicitada
     document.getElementById(sectionId).classList.add('active-section');
     
-    // Aplica o destaque visual no link clicado
     if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
     }
 
-    // Carregamento automático específico de dados da API
     if (sectionId === 'alunos-section') {
         listarAlunos();
     }
 }
 
-// ---------------------------------------------------
-// INTEGRAÇÃO COM A API (FastAPI)
-// ---------------------------------------------------
 async function listarAlunos() {
     try {
         const response = await fetch(`${API_URL}/alunos`);
@@ -151,11 +177,6 @@ document.getElementById("form-funcionario").addEventListener("submit", async (e)
     }
 });
 
-// ---------------------------------------------------
-// FÁBRICA DE COMPONENTES DO PAINEL (WIDGETS)
-// ---------------------------------------------------
-
-// Dicionário contendo todos os templates modulares
 const widgetsHTML = {
     alunos: criarTemplateWidget('alunos', '👨‍🎓 Resumo de Alunos', `
         <table>
@@ -219,7 +240,6 @@ const widgetsHTML = {
     `)
 };
 
-// Função responsável por gerar a estrutura HTML de cada cartão de forma padronizada
 function criarTemplateWidget(id, titulo, conteudo) {
     return `
         <div class="card" draggable="true" style="cursor: move;"
@@ -234,9 +254,6 @@ function criarTemplateWidget(id, titulo, conteudo) {
         </div>
     `;
 }
-
-// Inicialização da lista com base no LocalStorage
-let widgetsAtivos = JSON.parse(localStorage.getItem('meuDashboard')) || [];
 
 function renderizarDashboard() {
     const container = document.getElementById('dashboard-container');
@@ -260,10 +277,6 @@ function toggleWidget(nomeDoWidget) {
     renderizarDashboard();
 }
 
-// ---------------------------------------------------
-// LÓGICA DE GESTÃO DO FLUXO DRAG AND DROP
-// ---------------------------------------------------
-
 function iniciarArraste(event, nomeDoWidget, isReorder = false) {
     event.dataTransfer.setData("widget", nomeDoWidget);
     event.dataTransfer.setData("isReorder", isReorder);
@@ -284,13 +297,10 @@ function soltarNaPosicao(event, nomeDestino) {
         const indexOrigem = widgetsAtivos.indexOf(nomeOrigem);
         const indexDestino = widgetsAtivos.indexOf(nomeDestino);
         
-        
         const temp = widgetsAtivos[indexDestino];
         widgetsAtivos[indexDestino] = widgetsAtivos[indexOrigem];
         widgetsAtivos[indexOrigem] = temp;
-        
     } else {
-        
         if (!widgetsAtivos.includes(nomeOrigem)) {
             const indexDestino = widgetsAtivos.indexOf(nomeDestino);
             widgetsAtivos.splice(indexDestino, 0, nomeOrigem);
@@ -301,14 +311,12 @@ function soltarNaPosicao(event, nomeDestino) {
     renderizarDashboard();
 }
 
-// Quando solta na área vazia do container
 function soltarWidget(event) {
     event.preventDefault();
     const nomeOrigem = event.dataTransfer.getData("widget");
     const isReorder = event.dataTransfer.getData("isReorder") === "true";
     
     if (!isReorder) {
-        // Apenas adiciona ao final se for novo
         if (!widgetsAtivos.includes(nomeOrigem)) {
             widgetsAtivos.push(nomeOrigem);
         } else {
@@ -320,9 +328,3 @@ function soltarWidget(event) {
     localStorage.setItem('meuDashboard', JSON.stringify(widgetsAtivos));
     renderizarDashboard();
 }
-
-// ---------------------------------------------------
-// INICIALIZAÇÃO DA APLICAÇÃO
-// ---------------------------------------------------
-renderizarDashboard();
-window.onload = listarAlunos;

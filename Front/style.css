@@ -32,8 +32,20 @@ body {
     padding: 20px;
 }
 
-.sidebar h2 {
+.sidebar-header {
+    text-align: center;
     margin-bottom: 30px;
+}
+
+.sidebar-logo {
+    max-width: 80px; 
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 8px; 
+}
+
+.sidebar h2 {
+    margin-bottom: 0;
     font-size: 20px;
     text-align: center;
 }
@@ -52,14 +64,12 @@ body {
     transition: 0.3s;
 }
 
-
 .sidebar ul li a:hover {
     background-color: var(--accent-color);
     color: var(--text-light);
     transform: scale(1.04); 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
 }
-
 
 .sidebar ul li a:active {
     background-color: #312e81; 
@@ -73,7 +83,6 @@ body {
     transform: none; 
 }
 
-/* Conteúdo */
 .content {
     flex: 1;
     padding: 30px;
@@ -112,14 +121,13 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* Formulários */
 .grid-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
 }
 
-input {
+input, select {
     width: 100%;
     padding: 10px 14px;
     border: 1px solid var(--border-color);
@@ -128,7 +136,7 @@ input {
     font-size: 14px;
 }
 
-input:focus {
+input:focus, select:focus {
     border-color: var(--accent-color);
 }
 
@@ -151,7 +159,6 @@ input:focus {
     background-color: #4a5568;
 }
 
-/* Tabelas */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -201,7 +208,6 @@ th {
     flex-wrap: wrap;
 }
 
-
 .card-header .btn-secondary {
     padding: 6px 12px;
     font-size: 12px;
@@ -213,9 +219,6 @@ th {
     background-color: #dc2626;
 }
 
-/* --------------------------------------------------- */
-/* LAYOUT DINÂMICO DO PAINEL PRINCIPAL (WIDGETS)       */
-/* --------------------------------------------------- */
 .dashboard-grid {
     display: flex;
     flex-wrap: wrap; 
@@ -238,25 +241,40 @@ th {
     line-height: 1.5; 
 }
 
-
 .dashboard-grid table td[colspan] {
     white-space: normal; 
     word-break: break-word; 
     font-size: 14px;
 }
 
-/* --------------------------------------------------- */
-/* BARRA SUPERIOR (TOPBAR / PERFIL)                    */
-/* --------------------------------------------------- */
 .topbar {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: space-between; 
     align-items: center;
     background-color: var(--card-bg);
     padding: 12px 25px;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); 
     margin-bottom: 25px; 
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar-logo {
+    max-height: 35px; 
+    width: auto;
+    border-radius: 4px;
+}
+
+.topbar-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--bg-sidebar);
+    letter-spacing: 0.5px;
 }
 
 .topbar-right {
@@ -284,4 +302,223 @@ th {
 .profile-pic:hover {
     transform: scale(1.08); 
     box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); 
+}
+
+/* --- TELA DE LOGIN --- */
+.login-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-sidebar);
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.login-container {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Estilização da barra de rolagem do login */
+.login-container::-webkit-scrollbar {
+    width: 8px;
+}
+.login-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.login-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.login-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h2 {
+    color: var(--bg-sidebar);
+    margin-bottom: 8px;
+    font-size: 26px;
+}
+
+.login-header p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+.login-tabs {
+    display: flex;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab-btn:hover {
+    color: var(--accent-color);
+}
+
+.tab-btn.active {
+    color: var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    margin-bottom: -2px;
+}
+
+.login-form {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.login-form.active {
+    display: block;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bg-sidebar);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.btn-func {
+    background-color: #1e1e2f;
+}
+
+.btn-func:hover {
+    background-color: #33334d;
+}
+
+.btn-google {
+    background-color: #ffffff;
+    color: #3c4043;
+    border: 1px solid #dadce0;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-google img {
+    width: 20px;
+    height: 20px;
+}
+
+.btn-google:hover {
+    background-color: #f8f9fa;
+    border-color: #d2e3fc;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.divider:not(:empty)::before {
+    margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+    margin-left: .5em;
+}
+
+.toggle-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+}
+
+#form-cadastro-aluno h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--bg-sidebar);
+}
+
+/* Estilização para o Input de Arquivos */
+input[type="file"] {
+    padding: 8px;
+    background-color: #f8fafc;
+    border: 1px dashed var(--accent-color);
+    cursor: pointer;
+    font-size: 13px;
+    color: #64748b;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    opacity: 0.9;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }

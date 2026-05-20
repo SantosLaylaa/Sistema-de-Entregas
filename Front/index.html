@@ -4,28 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📦 Sistema Entregas</title>
+    <link rel="icon" type="image/png" href="imagem/baixados.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
         <nav class="sidebar">
-            <h2>📦 Sistema Entregas</h2>
+            <div class="sidebar-header">
+                <img src="imagem/baixados.png" alt="Emblema da Empresa" class="sidebar-logo">
+                <h2>Sistema Entregas</h2>
+            </div>
+            
             <ul>
                 <li><a href="#" class="active" onclick="showSection(event, 'home')">Dashboard</a></li>
-                <li><a href="#" onclick="showSection(event, 'alunos-section')">Cadastro de alunos</a></li>
-                <li><a href="#" onclick="showSection(event, 'funcionarios-section')">Cadastro de funcionarios</a></li>
+                <li id="menu-alunos"><a href="#" onclick="showSection(event, 'alunos-section')">Cadastro de alunos</a></li>
+                <li id="menu-funcionarios"><a href="#" onclick="showSection(event, 'funcionarios-section')">Cadastro de funcionarios</a></li>
     
                 <li>
                     <a href="#" onclick="toggleSubmenu(event, 'submenu-entregas')">Gestão de entregas <span class="arrow">▼</span></a>
                     <ul id="submenu-entregas" class="submenu">
-                        <li><a href="#" onclick="showSection(event, 'entregas-section')">Nova entrega</a></li>
+                        <li id="menu-nova-entrega"><a href="#" onclick="showSection(event, 'entregas-section')">Nova entrega</a></li>
                         <li><a href="#" onclick="showSection(event, 'rastreio-section')">Rastreamento</a></li>
-                        <li><a href="#" onclick="showSection(event, 'historico-section')">Historico por aluno</a></li>
+                        <li id="menu-historico"><a href="#" onclick="showSection(event, 'historico-section')">Historico por aluno</a></li>
                     </ul>
                 </li>
 
-                <li style="margin-top: 10px;">
+                <li id="menu-mensagens" style="margin-top: 10px;">
                     <a href="#" onclick="toggleSubmenu(event, 'submenu-mensagens')">Central de Mensagens <span class="arrow">▼</span></a>
                     <ul id="submenu-mensagens" class="submenu">
                         <li><a href="#" onclick="showSection(event, 'avisos-section')">Avisos</a></li>
@@ -35,12 +39,17 @@
                 </li>
 
                 <li style="margin-top: 10px;"><a href="#" onclick="showSection(event, 'agendamento-section')">Agendamento</a></li>
+                <li style="margin-top: 20px;"><a href="#" onclick="fazerLogout()" style="color: #ef4444;">Sair</a></li>
             </ul>
         </nav>
 
         <main class="content">
-            
             <header class="topbar">
+                <div class="topbar-left">
+                    <img src="imagem/baixados.png" alt="Logo da Empresa" class="topbar-logo">
+                    <span class="topbar-title">Sistema Entregas</span>
+                </div>
+
                 <div class="topbar-right">
                     <img src="https://ui-avatars.com/api/?name=User&background=cbd5e1&color=fff&bold=true" alt="Perfil Genérico" class="profile-pic" style="cursor: default;">
                 </div>
@@ -48,7 +57,6 @@
 
             <section id="home" class="active-section">
                 <h1>Painel de Controle</h1>
-                
                 <p style="margin-bottom: 10px; color: #64748b; font-size: 14px;">
                     Arraste os botões abaixo para a área pontilhada. Você também pode arrastar os painéis já adicionados para trocar a ordem deles!
                 </p>
@@ -69,7 +77,7 @@
                      ondragover="permitirSoltar(event)" 
                      ondrop="soltarWidget(event)"
                      style="min-height: 250px; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; background-color: #f8fafc;">
-                    </div>
+                </div>
             </section>
 
             <section id="alunos-section">
@@ -179,18 +187,24 @@
             </section>
 
             <section id="agendamento-section">
-                <h1>Agendamento</h1>
+                <h1>Agendamento de Atendimento</h1>
                 <div class="card">
-                    <h3>Agendar Nova Retirada/Entrega</h3>
-                    <form class="grid-form" onsubmit="event.preventDefault();">
-                        <input type="text" placeholder="Nome do Aluno ou ID">
-                        <input type="date" placeholder="Data Prevista">
-                        <input type="time" placeholder="Horário">
+                    <h3>Solicitar Horário</h3>
+                    <form class="grid-form" onsubmit="event.preventDefault(); alert('Agendamento confirmado!'); this.reset();">
+                        <input type="text" id="agendamento-aluno-id" placeholder="Matrícula do Aluno">
+                        
+                        <select style="padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-size: 14px;" required>
+                            <option value="" disabled selected>Selecione o Motivo</option>
+                            <option value="retirada">Retirada de Encomenda</option>
+                            <option value="duvida">Dúvidas / Suporte</option>
+                        </select>
+
+                        <input type="date" required>
+                        <input type="time" required>
                         <button type="submit" class="btn">Confirmar Agendamento</button>
                     </form>
                 </div>
             </section>
-
         </main>
     </div>
 
