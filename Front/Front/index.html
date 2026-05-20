@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📦 Sistema Entregas</title>
+    <link rel="icon" type="image/png" href="imagem/baixados.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="imagem/baixados.png" alt="Emblema da Empresa" class="sidebar-logo">
+                <h2>Sistema Entregas</h2>
+            </div>
+            
+            <ul>
+                <li><a href="#" class="active" onclick="showSection(event, 'home')">Dashboard</a></li>
+                <li id="menu-alunos"><a href="#" onclick="showSection(event, 'alunos-section')">Cadastro de alunos</a></li>
+                <li id="menu-funcionarios"><a href="#" onclick="showSection(event, 'funcionarios-section')">Cadastro de funcionarios</a></li>
+    
+                <li>
+                    <a href="#" onclick="toggleSubmenu(event, 'submenu-entregas')">Gestão de entregas <span class="arrow">▼</span></a>
+                    <ul id="submenu-entregas" class="submenu">
+                        <li id="menu-nova-entrega"><a href="#" onclick="showSection(event, 'entregas-section')">Nova entrega</a></li>
+                        <li><a href="#" onclick="showSection(event, 'rastreio-section')">Rastreamento</a></li>
+                        <li id="menu-historico"><a href="#" onclick="showSection(event, 'historico-section')">Historico por aluno</a></li>
+                    </ul>
+                </li>
+
+                <li id="menu-mensagens" style="margin-top: 10px;">
+                    <a href="#" onclick="toggleSubmenu(event, 'submenu-mensagens')">Central de Mensagens <span class="arrow">▼</span></a>
+                    <ul id="submenu-mensagens" class="submenu">
+                        <li><a href="#" onclick="showSection(event, 'avisos-section')">Avisos</a></li>
+                        <li><a href="#" onclick="showSection(event, 'configuracoes-section')">Configurações</a></li>
+                        <li><a href="#" onclick="showSection(event, 'lembretes-section')">Lembretes</a></li>
+                    </ul>
+                </li>
+
+                <li style="margin-top: 10px;"><a href="#" onclick="showSection(event, 'agendamento-section')">Agendamento</a></li>
+                <li style="margin-top: 20px;"><a href="#" onclick="fazerLogout()" style="color: #ef4444;">Sair</a></li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <img src="imagem/baixados.png" alt="Logo da Empresa" class="topbar-logo">
+                    <span class="topbar-title">Sistema Entregas</span>
+                </div>
+
+                <div class="topbar-right">
+                    <img src="https://ui-avatars.com/api/?name=User&background=cbd5e1&color=fff&bold=true" alt="Perfil Genérico" class="profile-pic" style="cursor: default;">
+                </div>
+            </header>
+
+            <section id="home" class="active-section">
+                <h1>Painel de Controle</h1>
+                <p style="margin-bottom: 10px; color: #64748b; font-size: 14px;">
+                    Arraste os botões abaixo para a área pontilhada. Você também pode arrastar os painéis já adicionados para trocar a ordem deles!
+                </p>
+                
+                <div class="dashboard-controls" style="margin-bottom: 20px;">
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'alunos')">👨‍🎓 Alunos</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'funcionarios')">👷 Funcionários</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'nova_entrega')">📦 Nova Entrega</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'rastreamento')">🚚 Rastreamento</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'historico')">📜 Histórico</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'avisos')">⚠️ Avisos</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'configuracoes')">⚙️ Configurações</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'lembretes')">🔔 Lembretes</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'agendamento')">📅 Agendamento</button>
+                </div>
+
+                <div id="dashboard-container" class="dashboard-grid" 
+                     ondragover="permitirSoltar(event)" 
+                     ondrop="soltarWidget(event)"
+                     style="min-height: 250px; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; background-color: #f8fafc;">
+                </div>
+            </section>
+
+            <section id="alunos-section">
+                <h1>Cadastro de alunos</h1>
+                <div class="card">
+                    <h3>Cadastrar Novo Aluno</h3>
+                    <form id="form-aluno" class="grid-form">
+                        <input type="text" id="aluno-nome" placeholder="Nome Completo" required>
+                        <input type="number" id="aluno-idade" placeholder="Idade" required>
+                        <input type="text" id="aluno-cpf" placeholder="CPF" required>
+                        <input type="text" id="aluno-rg" placeholder="RG" required>
+                        <input type="text" id="aluno-matricula" placeholder="Matrícula" required>
+                        <input type="text" id="aluno-turma" placeholder="Turma" required>
+                        <button type="submit" class="btn">Cadastrar Aluno</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Lista de Alunos Registrados</h3>
+                        <button onclick="listarAlunos()" class="btn btn-secondary">Atualizar Lista</button>
+                    </div>
+                    <table id="tabela-alunos">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Matrícula</th>
+                                <th>Turma</th>
+                                <th>CPF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="funcionarios-section">
+                <h1>Cadastro de funcionários</h1>
+                <div class="card">
+                    <h3>Cadastrar Funcionário</h3>
+                    <form id="form-funcionario" class="grid-form">
+                        <input type="text" id="func-nome" placeholder="Nome do Funcionário" required>
+                        <input type="text" id="func-matricula" placeholder="Matrícula" required>
+                        <button type="submit" class="btn">Cadastrar</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="entregas-section">
+                <h1>Nova Entrega</h1>
+                <div class="card">
+                    <h3>Registrar Nova Entrega</h3>
+                    <form id="form-entrega" class="grid-form">
+                        <input type="number" id="entrega-aluno-id" placeholder="ID do Aluno" required>
+                        <input type="number" id="entrega-func-id" placeholder="ID do Funcionário" required>
+                        <input type="text" id="entrega-data" placeholder="Data (DD-MM-AAAA)" required>
+                        <input type="text" id="entrega-status" placeholder="Status (Ex: Pendente)" required>
+                        <button type="submit" class="btn">Registrar Entrega</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="rastreio-section">
+                <h1>Rastreamento de Entrega</h1>
+                <div class="card">
+                    <h3>Consultar Status</h3>
+                    <form class="grid-form" onsubmit="event.preventDefault();">
+                        <input type="text" placeholder="Código de Rastreamento">
+                        <button type="submit" class="btn">Buscar Pacote</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="historico-section">
+                <h1>Histórico por Aluno</h1>
+                <div class="card">
+                    <p>Aqui você visualizará as entregas passadas filtradas por aluno.</p>
+                </div>
+            </section>
+
+            <section id="avisos-section">
+                <h1>Avisos</h1>
+                <div class="card">
+                    <p>Quadro de avisos gerais enviados e recebidos.</p>
+                </div>
+            </section>
+
+            <section id="configuracoes-section">
+                <h1>Configurações de Mensagens</h1>
+                <div class="card">
+                    <p>Ajustes de servidores SMTP, disparo de SMS e preferências de notificação.</p>
+                </div>
+            </section>
+
+            <section id="lembretes-section">
+                <h1>Lembretes</h1>
+                <div class="card">
+                    <h3>Novo Lembrete Automático</h3>
+                    <form class="grid-form" onsubmit="event.preventDefault();">
+                        <input type="text" placeholder="Título do Lembrete">
+                        <input type="date" placeholder="Data">
+                        <button type="submit" class="btn">Salvar Lembrete</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="agendamento-section">
+                <h1>Agendamento de Atendimento</h1>
+                <div class="card">
+                    <h3>Solicitar Horário</h3>
+                    <form class="grid-form" onsubmit="event.preventDefault(); alert('Agendamento confirmado!'); this.reset();">
+                        <input type="text" id="agendamento-aluno-id" placeholder="Matrícula do Aluno">
+                        
+                        <select style="padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-size: 14px;" required>
+                            <option value="" disabled selected>Selecione o Motivo</option>
+                            <option value="retirada">Retirada de Encomenda</option>
+                            <option value="duvida">Dúvidas / Suporte</option>
+                        </select>
+
+                        <input type="date" required>
+                        <input type="time" required>
+                        <button type="submit" class="btn">Confirmar Agendamento</button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
