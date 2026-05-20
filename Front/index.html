@@ -12,45 +12,68 @@
         <nav class="sidebar">
             <h2>📦 Sistema Entregas</h2>
             <ul>
-                <li><a href="#" onclick="showSection('dashboard-section')">Dashboard</a></li>
-                <li><a href="#" class="active" onclick="showSection('alunos-section')">Cadastro de alunos</a></li>
-                <li><a href="#" onclick="showSection('funcionarios-section')">Cadastro de funcionarios</a></li>
+                <li><a href="#" class="active" onclick="showSection(event, 'home')">Dashboard</a></li>
+                <li><a href="#" onclick="showSection(event, 'alunos-section')">Cadastro de alunos</a></li>
+                <li><a href="#" onclick="showSection(event, 'funcionarios-section')">Cadastro de funcionarios</a></li>
     
+                <li>
+                    <a href="#" onclick="toggleSubmenu(event, 'submenu-entregas')">Gestão de entregas <span class="arrow">▼</span></a>
+                    <ul id="submenu-entregas" class="submenu">
+                        <li><a href="#" onclick="showSection(event, 'entregas-section')">Nova entrega</a></li>
+                        <li><a href="#" onclick="showSection(event, 'rastreio-section')">Rastreamento</a></li>
+                        <li><a href="#" onclick="showSection(event, 'historico-section')">Historico por aluno</a></li>
+                    </ul>
+                </li>
 
-            <li>
-                <a href="#" onclick="toggleSubmenu(event, 'submenu-entregas')">Gestão de entregas <span class="arrow">▼</span></a>
-                <ul id="submenu-entregas" class="submenu">
-                    <li><a href="#" onclick="showSection('entregas-section')">Nova entrega</a></li>
-                    <li><a href="#" onclick="showSection('rastreio-section')">Rastreamento</a></li>
-                    <li><a href="#" onclick="showSection('historico-section')">Historico por aluno</a></li>
-        </ul>
-    </li>
+                <li style="margin-top: 10px;">
+                    <a href="#" onclick="toggleSubmenu(event, 'submenu-mensagens')">Central de Mensagens <span class="arrow">▼</span></a>
+                    <ul id="submenu-mensagens" class="submenu">
+                        <li><a href="#" onclick="showSection(event, 'avisos-section')">Avisos</a></li>
+                        <li><a href="#" onclick="showSection(event, 'configuracoes-section')">Configurações</a></li>
+                        <li><a href="#" onclick="showSection(event, 'lembretes-section')">Lembretes</a></li>
+                    </ul>
+                </li>
 
-    <li style="margin-top: 10px;">
-        <a href="#" onclick="toggleSubmenu(event, 'submenu-mensagens')">Central de Mensagens <span class="arrow">▼</span></a>
-        <ul id="submenu-mensagens" class="submenu">
-            <li><a href="#" onclick="showSection('avisos-section')">Avisos</a></li>
-            <li><a href="#" onclick="showSection('configuracoes-section')">Configurações</a></li>
-            <li><a href="#" onclick="showSection('lembretes-section')">Lembretes</a></li>
-        </ul>
-    </li>
-
-    <li style="margin-top: 10px;"><a href="#" onclick="showSection('agendamento-section')">Agendamento</a></li>
-</ul>
+                <li style="margin-top: 10px;"><a href="#" onclick="showSection(event, 'agendamento-section')">Agendamento</a></li>
+            </ul>
         </nav>
 
         <main class="content">
             
-            <section id="dashboard-section">
-                <h1>Dashboard</h1>
-                <div class="card">
-                    <p>Resumo do sistema e métricas principais aparecerão aqui.</p>
+            <header class="topbar">
+                <div class="topbar-right">
+                    <img src="https://ui-avatars.com/api/?name=User&background=cbd5e1&color=fff&bold=true" alt="Perfil Genérico" class="profile-pic" style="cursor: default;">
                 </div>
+            </header>
+
+            <section id="home" class="active-section">
+                <h1>Painel de Controle</h1>
+                
+                <p style="margin-bottom: 10px; color: #64748b; font-size: 14px;">
+                    Arraste os botões abaixo para a área pontilhada. Você também pode arrastar os painéis já adicionados para trocar a ordem deles!
+                </p>
+                
+                <div class="dashboard-controls" style="margin-bottom: 20px;">
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'alunos')">👨‍🎓 Alunos</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'funcionarios')">👷 Funcionários</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'nova_entrega')">📦 Nova Entrega</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'rastreamento')">🚚 Rastreamento</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'historico')">📜 Histórico</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'avisos')">⚠️ Avisos</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'configuracoes')">⚙️ Configurações</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'lembretes')">🔔 Lembretes</button>
+                    <button class="btn" draggable="true" ondragstart="iniciarArraste(event, 'agendamento')">📅 Agendamento</button>
+                </div>
+
+                <div id="dashboard-container" class="dashboard-grid" 
+                     ondragover="permitirSoltar(event)" 
+                     ondrop="soltarWidget(event)"
+                     style="min-height: 250px; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 12px; background-color: #f8fafc;">
+                    </div>
             </section>
 
-            <section id="alunos-section" class="active-section">
+            <section id="alunos-section">
                 <h1>Cadastro de alunos</h1>
-                
                 <div class="card">
                     <h3>Cadastrar Novo Aluno</h3>
                     <form id="form-aluno" class="grid-form">
@@ -80,7 +103,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </section>
