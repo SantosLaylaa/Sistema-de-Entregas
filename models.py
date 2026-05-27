@@ -21,7 +21,7 @@ class Endereco(BaseModel):
 class Entrega(BaseModel):
     id_aluno: int
     id_funcionario: int
-    data_entrega: str #esperado que seja dd-mm-aaaa
+    data_entrega: datetime.date #esperado que seja dd-mm-aaaa
     status: str
 
 class Funcionario(BaseModel):
@@ -37,8 +37,8 @@ class EntregaItem(BaseModel):
 
 class Agendamento(BaseModel):
     id_aluno: int
-    data_agendada: str #esperando dd-mm-aaaa
-    horario:str #esperado que seja hh-mm
+    data_agendada: datetime.date #esperando dd-mm-aaaa
+    horario: datetime.time #esperado que seja hh-mm
 
 class Telefone(BaseModel):
     id_aluno: int
