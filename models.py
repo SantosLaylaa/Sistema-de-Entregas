@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import date, time
 
 class Aluno(BaseModel):
+    id: int
     nome: str
     idade: int
     cpf: str
@@ -14,21 +16,23 @@ class Endereco(BaseModel):
     cep: str
     logradouro: str
     numero: int
-    complemento: Optional[str] = None #opcional pq nem todo endereço tem
+    complemento: Optional[str] = None #opcional porque nem todo endereço tem
     bairro: str
     estado: str
 
 class Entrega(BaseModel):
     id_aluno: int
     id_funcionario: int
-    data_entrega: datetime.date #esperado que seja dd-mm-aaaa
+    data_entrega: date #esperado que seja dd-mm-aaaa
     status: str
 
 class Funcionario(BaseModel):
+    id: int
     nome: str
     matricula: str
 
 class Item(BaseModel):
+    id: int
     nome: str
 
 class EntregaItem(BaseModel):
@@ -37,8 +41,8 @@ class EntregaItem(BaseModel):
 
 class Agendamento(BaseModel):
     id_aluno: int
-    data_agendada: datetime.date #esperando dd-mm-aaaa
-    horario: datetime.time #esperado que seja hh-mm
+    data_agendada: date #esperando dd-mm-aaaa
+    horario: time #esperado que seja hh-mm
 
 class Telefone(BaseModel):
     id_aluno: int
