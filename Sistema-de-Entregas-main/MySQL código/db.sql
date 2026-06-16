@@ -10,7 +10,8 @@ create table aluno(
     rg varchar(20) not null unique,
     data_nascimento date null,
     matricula varchar(50) not null,
-    turma varchar(10) not null
+    turma varchar(10) not null,
+	senha varchar(100) not null
 );
 
 create table endereco(
@@ -37,7 +38,8 @@ create table telefone(
 create table funcionario(
 	id int not null auto_increment primary key,
     nome varchar(100) not null,
-    matricula varchar(50) not null
+    matricula varchar(50) not null,
+	senha varchar(100) not null
 );
 
 create table atendente(
