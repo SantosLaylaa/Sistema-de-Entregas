@@ -40,7 +40,7 @@ class EntregaItem(BaseModel):
     id_item: int
 
 class Agendamento(BaseModel):
-    id_aluno: int
+    matricula_aluno: str
     data_agendada: date #esperando dd-mm-aaaa
     horario: time #esperado que seja hh-mm
 

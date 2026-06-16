@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function fazerLogout() {
-    localStorage.removeItem('tipoUsuarioLogado');
+    localStorage.clear(); // O segredo está aqui
     window.location.href = 'login.html';
 }
 
@@ -263,9 +263,13 @@ const widgetsHTML = {
     `),
     
     agendamento: criarTemplateWidget('agendamento', '📅 Agendamentos', `
-        <table>
-            <tr><th>Hora</th><th>Aluno</th><th>Tipo</th></tr>
-            <tr><td colspan="3" style="text-align: center; padding: 25px; color: #64748b;">Nada pra hoje! Pode relaxar. ☕</td></tr>
+        <table id="tabela-widget-agendamentos">
+            <thead>
+                <tr><th>Data</th><th>Hora</th><th>Aluno</th></tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="3" style="text-align: center; padding: 25px; color: #64748b;">Nada pra hoje! Pode relaxar. ☕</td></tr>
+            </tbody>
         </table>
     `)
 };
@@ -294,6 +298,11 @@ function renderizarDashboard() {
             container.innerHTML += widgetsHTML[widget];
         }
     });
+
+    // NOVA LINHA: Se o widget de agendamento estiver na tela, puxa os dados!
+    if (widgetsAtivos.includes('agendamento')) {
+        carregarWidgetAgendamentos();
+    }
 }
 
 function toggleWidget(nomeDoWidget) {
@@ -388,3 +397,74 @@ function validarCPF(cpf) {
 
     return true;
 }
+// --- ENVIO DO AGENDAMENTO PARA O BACK-END ---
+const formAgendamento = document.getElementById("form-agendamento");
+
+if (formAgendamento) {
+    formAgendamento.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        // Pega os valores da tela usando a matrícula
+        const dadosAgendamento = {
+            matricula_aluno: document.getElementById("agendamento-aluno-id").value,
+            data_agendada: document.getElementById("agendamento-data").value,
+            horario: document.getElementById("agendamento-hora").value
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/agendamentos`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dadosAgendamento)
+            });
+            
+            const resultado = await response.json();
+            
+            if (response.ok) {
+                alert(resultado.mensagem);
+                formAgendamento.reset(); // Limpa o formulário após o sucesso
+            } else {
+                alert(`Erro: ${resultado.detail}`);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Erro ao conectar com a API de agendamentos. Verifique se o servidor está rodando.");
+        }
+    });
+}
+
+// --- CARREGAR AGENDAMENTOS NO DASHBOARD ---
+async function carregarWidgetAgendamentos() {
+    try {
+        const response = await fetch(`${API_URL}/agendamentos`);
+        if (!response.ok) return;
+
+        const agendamentos = await response.json();
+        const tbody = document.querySelector("#tabela-widget-agendamentos tbody");
+
+        // Se a tabela existir na tela e tiver agendamentos no banco
+        if (tbody && agendamentos.length > 0) {
+            tbody.innerHTML = ""; // Apaga a mensagem "Nada pra hoje"
+
+            agendamentos.forEach(ag => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${ag.data_agendada}</td>
+                    <td>${ag.horario}</td>
+                    <td>${ag.nome_aluno}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    } catch (error) {
+        console.error("Erro ao puxar agendamentos para o dashboard:", error);
+    }
+}
+
+// Carrega a foto pequena no topo do painel principal
+document.addEventListener("DOMContentLoaded", () => {
+    const nome = localStorage.getItem('nomeUsuario') || "Usuário";
+    const linkAvatarTopo = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=cbd5e1&color=333&bold=true`;
+    const imgAvatarTopo = document.getElementById('img-avatar-topo');
+    if (imgAvatarTopo) imgAvatarTopo.src = linkAvatarTopo;
+});

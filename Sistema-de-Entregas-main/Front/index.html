@@ -50,9 +50,9 @@
                     <span class="topbar-title">Sistema Entregas</span>
                 </div>
 
-                <div class="topbar-right">
+                <div class="topbar-right" onclick="window.location.href='perfil.html'" style="cursor: pointer; padding: 5px; border-radius: 8px; transition: 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9'" onmouseout="this.style.backgroundColor='transparent'">
                     <span id="display-nome-usuario" class="user-name"></span>
-                    <img src="https://ui-avatars.com/api/?name=User&background=cbd5e1&color=fff&bold=true" alt="Perfil Genérico" class="profile-pic" style="cursor: default;">
+                    <img id="img-avatar-topo" src="" alt="Perfil" class="profile-pic">
                 </div>
             </header>
 
@@ -136,8 +136,13 @@
                     <form id="form-entrega" class="grid-form">
                         <input type="number" id="entrega-aluno-id" placeholder="ID do Aluno" required>
                         <input type="number" id="entrega-func-id" placeholder="ID do Funcionário" required>
-                        <input type="text" id="entrega-data" placeholder="Data (DD-MM-AAAA)" required>
-                        <input type="text" id="entrega-status" placeholder="Status (Ex: Pendente)" required>
+                        <input type="date" id="entrega-data" required>
+                        <select id="entrega-status" style="padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-size: 14px;" required>
+                            <option value="" disabled selected>Status da Entrega</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="entregue">Entregue</option>
+                            <option value="cancelada">Cancelada</option>
+                        </select>
                         <button type="submit" class="btn">Registrar Entrega</button>
                     </form>
                 </div>
@@ -191,19 +196,19 @@
                 <h1>Agendamento de Atendimento</h1>
                 <div class="card">
                     <h3>Solicitar Horário</h3>
-                    <form class="grid-form" onsubmit="event.preventDefault(); alert('Agendamento confirmado!'); this.reset();">
-                        <input type="text" id="agendamento-aluno-id" placeholder="Matrícula do Aluno">
-                        
-                        <select style="padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-size: 14px;" required>
-                            <option value="" disabled selected>Selecione o Motivo</option>
-                            <option value="retirada">Retirada de Encomenda</option>
-                            <option value="duvida">Dúvidas / Suporte</option>
-                        </select>
+            <form id="form-agendamento" class="grid-form">
+                <input type="text" id="agendamento-aluno-id" placeholder="Matrícula do Aluno" required>
+                
+                <select id="agendamento-motivo" style="padding: 10px 14px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-size: 14px;" required>
+                    <option value="" disabled selected>Selecione o Motivo</option>
+                    <option value="retirada">Retirada de Encomenda</option>
+                    <option value="duvida">Dúvidas / Suporte</option>
+                </select>
 
-                        <input type="date" required>
-                        <input type="time" required>
-                        <button type="submit" class="btn">Confirmar Agendamento</button>
-                    </form>
+                <input type="date" id="agendamento-data" required>
+                <input type="time" id="agendamento-hora" required>
+                <button type="submit" class="btn">Confirmar Agendamento</button>
+            </form>
                 </div>
             </section>
         </main>

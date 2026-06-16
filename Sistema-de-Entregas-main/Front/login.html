@@ -20,10 +20,23 @@
         </div>
 
         <form id="form-login-aluno" class="login-form active" onsubmit="fazerLogin('aluno', event)">
-            <button type="button" class="btn btn-google" onclick="loginGoogle()">
-                <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google">
-                Entrar com o Google
-            </button>
+            
+            <div id="g_id_onload"
+                 data-client_id="593155284684-o53j329ehr5v0o2e5hhq4rvfk9ici6it.apps.googleusercontent.com"
+                 data-context="signin"
+                 data-ux_mode="popup"
+                 data-callback="tratarRespostaDoGoogle"
+                 data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="outline"
+                 data-text="signin_with"
+                 data-size="large"
+                 data-logo_alignment="left"
+                 style="margin-bottom: 15px; width: 100%; display: flex; justify-content: center;">
+            </div>
             
             <div class="divider">ou</div>
 
@@ -45,7 +58,7 @@
             
             <div class="input-group">
                 <label>Nome Completo</label>
-                <input type="text" placeholder="Seu nome completo" required>
+                <input type="text" id="cad-nome" placeholder="Seu nome completo" required>
             </div>
             <div class="input-group">
                 <label>CPF</label>
@@ -53,15 +66,15 @@
             </div>
             <div class="input-group">
                 <label>E-mail</label>
-                <input type="email" placeholder="seu@email.com" required>
+                <input type="email" id="cad-email" placeholder="seu@email.com" required>
             </div>
             <div class="input-group">
                 <label>Escola / Instituição de Ensino</label>
-                <input type="text" placeholder="Nome da instituição" required>
+                <input type="text" id="cad-escola" placeholder="Nome da instituição" required>
             </div>
             <div class="input-group">
                 <label>Endereço de Residência</label>
-                <input type="text" placeholder="Rua, Número, Bairro, Cidade" required>
+                <input type="text" id="cad-endereco" placeholder="Rua, Número, Bairro, Cidade" required>
             </div>
             <div class="input-group">
                 <label>Crie uma Senha</label>
@@ -72,15 +85,15 @@
 
             <div class="input-group">
                 <label>Documento de Identidade (Frente)</label>
-                <input type="file" accept="image/*,.pdf" required>
+                <input type="file" id="cad-doc-frente" accept="image/*,.pdf" required>
             </div>
             <div class="input-group">
                 <label>Documento de Identidade (Verso)</label>
-                <input type="file" accept="image/*,.pdf" required>
+                <input type="file" id="cad-doc-verso" accept="image/*,.pdf" required>
             </div>
             <div class="input-group">
                 <label>Comprovante de Matrícula</label>
-                <input type="file" accept="image/*,.pdf" required>
+                <input type="file" id="cad-comprovante" accept="image/*,.pdf" required>
             </div>
 
             <button type="submit" class="btn login-btn">Enviar para Análise</button>
@@ -102,5 +115,6 @@
     </div>
 
     <script src="login.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>
